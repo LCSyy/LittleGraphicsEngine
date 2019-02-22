@@ -1,9 +1,10 @@
-#include <iostream>
-#include "module/module.hpp"
+﻿#include <iostream>
+#include "engine.hpp"
+#include "scene/scenemanager.hpp"
 
 int main(int argc, char *argv[]) {
-    Module scene;
-    scene.init();
-    
+    Engine::init();
+    Engine::scene().init();
+    Engine::finalize();
     return 0;
 }

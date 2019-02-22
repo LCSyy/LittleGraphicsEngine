@@ -1,5 +1,5 @@
-#ifndef _SCENENODE_HPP_
-#define _SCENENODE_HPP_
+﻿#ifndef SCENENODE_HPP_
+#define SCENENODE_HPP_
 
 class SceneNode
 {

@@ -1,5 +1,7 @@
-*.exe
+﻿*.exe
 *.o
+*.user
+*.autosave
 __pycache__
 .vscode
 build

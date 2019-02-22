@@ -1,5 +1,5 @@
-#ifndef _SCENEMANAGER_HPP_
-#define _SCENEMANAGER_HPP_
+﻿#ifndef SCENEMANAGER_HPP_
+#define SCENEMANAGER_HPP_
 
 class SceneManager
 {
