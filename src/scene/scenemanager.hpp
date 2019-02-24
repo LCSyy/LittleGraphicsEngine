@@ -1,5 +1,5 @@
-﻿#ifndef SCENEMANAGER_HPP_
-#define SCENEMANAGER_HPP_
+﻿#ifndef SCENEMANAGER_HPP
+#define SCENEMANAGER_HPP
 
 #include "scenenode.hpp"
 
