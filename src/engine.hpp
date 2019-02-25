@@ -1,8 +1,8 @@
 ﻿#ifndef ENGINE_HPP_
 #define ENGINE_HPP_
 
-class GraphicsEngine;
-class SceneManager;
+#include "graphics/graphicsengine.hpp"
+#include "scene/scenemanager.hpp"
 
 class Engine
 {

@@ -29,8 +29,10 @@ void OpenGLWindow::update()
 {
 }
 
-void OpenGLWindow::frameResize()
+void OpenGLWindow::frameResize(int w, int h)
 {
+    Q_UNUSED(w)
+    Q_UNUSED(h)
 }
 
 void OpenGLWindow::finalize()
@@ -71,7 +73,7 @@ void OpenGLWindow::render()
     }
 
     if(bShouldResizeViewport) {
-        frameResize();
+        frameResize(width(),height());
         bShouldResizeViewport = false;
     }
 

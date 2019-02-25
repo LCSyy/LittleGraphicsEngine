@@ -3,7 +3,7 @@
 
 #include "openglwindow.h"
 
-// class Camera;
+struct Pipeline;
 
 class Window: public OpenGLWindow
 {
@@ -12,10 +12,12 @@ public:
     Window(QWindow *parent=nullptr);
     ~Window() override;
 
+    std::string loadFile(const std::string &file);
+
 protected:
     void initialize() override;
     void update() override;
-    void frameResize() override;
+    void frameResize(int w, int h) override;
     void finalize() override;
 
     void mouseMoveEvent(QMouseEvent *ev) override;
@@ -24,9 +26,7 @@ protected:
     void wheelEvent(QWheelEvent *ev) override;
 
 private:
-    // Camera *mCamera{nullptr};
-    // QPoint mLatestPos{QPoint(-1,-1)};
-    // bool mPressed{false};
+    Pipeline *_pipeline{nullptr};
 };
 
 #endif // WINDOW_H

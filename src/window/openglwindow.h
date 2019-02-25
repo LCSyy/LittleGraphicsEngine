@@ -15,7 +15,7 @@ public:
 protected:
     virtual void initialize();
     virtual void update();
-    virtual void frameResize();
+    virtual void frameResize(int w, int h);
     virtual void finalize();
 
     void resizeEvent(QResizeEvent *event) override;

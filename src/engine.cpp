@@ -1,6 +1,4 @@
-#include "engine.hpp"
-#include "graphics/graphicsengine.hpp"
-#include "scene/scenemanager.hpp"
+﻿#include "engine.hpp"
 
 GraphicsEngine *Engine::_graphicsEngine = nullptr;
 SceneManager *Engine::_sceneManager = nullptr;
