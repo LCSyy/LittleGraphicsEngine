@@ -22,10 +22,10 @@ void Window::initialize()
     _pipeline->vertex_position_component_size = 3;
 
     Engine::initialize();
-    Engine::graphics().clearColor(0.1f,0.3f,0.5f);
-    std::string vsrc{"#version 430 core\nlayout(position=0) vec3 ioPos;\nvoid main(){gl_Position = vec4(ioPos,1,0f);}"}; // loadFile("vertex.glsl");
-    std::string fsrc{"#version 430 core\nout vec4 ioColor;\nvoid main() {ioColor = vec4(0.99f,0.99f,0.99f,1.0f);}"}; // loadFile("fragment.glsl");
-    Engine::graphics().createShaderProgram(*_pipeline,vsrc.data(),fsrc.data(),nullptr,nullptr,nullptr);
+    // Engine::graphics().clearColor(0.1f,0.3f,0.5f);
+    std::string vsrc = loadFile(":/shaders/vertex.glsl");
+    std::string fsrc = loadFile(":/shaders/fragment.glsl");
+    Engine::graphics().createShaderProgram(*_pipeline,vsrc.c_str(),fsrc.c_str(),nullptr,nullptr,nullptr);
 
     Engine::graphics().createVertexArray(*_pipeline);
 

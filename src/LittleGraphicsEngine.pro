@@ -26,3 +26,5 @@ HEADERS += \
     window/window.h \
     graphics/graphicsengine.hpp
 
+RESOURCES += \
+    res.qrc

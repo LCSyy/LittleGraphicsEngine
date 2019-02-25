@@ -165,8 +165,8 @@ void GraphicsEngine::drawEnd(const Pipeline &pipe)
     glPolygonMode(GL_FRONT_AND_BACK,pipe.polygon_mode);
 
     if(pipe.element_buffer_size > 0){
-        glEnable(GL_PRIMITIVE_RESTART);
-        glPrimitiveRestartIndex(0xffff);
+        // glEnable(GL_PRIMITIVE_RESTART);
+        // glPrimitiveRestartIndex(0xffff);
         glDrawElements(pipe.draw_mode,pipe.element_buffer_size / static_cast<int>(sizeof(unsigned int)),GL_UNSIGNED_INT,nullptr);
     } else {
         glDrawArrays(pipe.draw_mode,0,pipe.vertex_buffer_size / (pipe.vertex_position_component_size * static_cast<int>(sizeof(float))));
