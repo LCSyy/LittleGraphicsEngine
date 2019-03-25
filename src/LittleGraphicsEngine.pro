@@ -7,8 +7,6 @@ CONFIG += qt
 QT += gui
 ###################
 
-DESTDIR = $$PWD/../build
-
 SOURCES += \
     main.cpp \
     scene/scenemanager.cpp \

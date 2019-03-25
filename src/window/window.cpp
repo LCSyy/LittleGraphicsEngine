@@ -42,6 +42,20 @@ void Window::initialize()
     };
 
     Engine::graphics().uploadData(*_pipeline,sizeof(rect),rect,sizeof(cube_indices),cube_indices);
+
+    /*
+     * Scene *scene = Engine::scene().currentScene();
+     * Node *oneNode = scene->getNode("root_node");
+     * Node *node = scene->createNode("child_node",oneNode);
+     * node->setTransform();
+     * LightComponent *light = node->createComponent<LightComponent>("main_light");
+     * light->setRadius();
+     * light->setDirection();
+     *
+     * ...
+     *
+     * scene->update();
+    */
 }
 
 void Window::update()
