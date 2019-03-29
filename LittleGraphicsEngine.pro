@@ -1,4 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    $$PWD/src/LittleGraphicsEngine.pro
+    $$PWD/src/LittleGraphicsEngine.pro \
+    Window

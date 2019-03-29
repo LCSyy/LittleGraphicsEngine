@@ -1,28 +1,18 @@
-TEMPLATE = app
-TARGET = LittleGraphicsEngine
+DEFINES += LITTLE_GRAPHICS_ENGINE
+TEMPLATE = lib
+TARGET = LEngine
 CONFIG += c++14
 
-#### Qt Window ####
-CONFIG += qt
-QT += gui
-###################
+HEADERS += \
+    shared_library.h \
+    engine.h
+
+DESTDIR = $$PWD/../dist/bin
+
+sdk.path = $$PWD/../dist/include/
+sdk.files += $$PWD/*.h
+
+INSTALLS += sdk
 
 SOURCES += \
-    main.cpp \
-    scene/scenemanager.cpp \
-    scene/scenenode.cpp \
-    engine.cpp \
-    window/openglwindow.cpp \
-    window/window.cpp \
-    graphics/graphicsengine.cpp
-
-HEADERS += \
-    scene/scenemanager.hpp \
-    scene/scenenode.hpp \
-    engine.hpp \
-    window/openglwindow.h \
-    window/window.h \
-    graphics/graphicsengine.hpp
-
-RESOURCES += \
-    res.qrc
+    engine.cpp

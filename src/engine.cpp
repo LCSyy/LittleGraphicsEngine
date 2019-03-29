@@ -1,31 +1,11 @@
-﻿#include "engine.hpp"
+﻿#include "engine.h"
 
-GraphicsEngine *Engine::_graphicsEngine = nullptr;
-SceneManager *Engine::_sceneManager = nullptr;
-
-bool Engine::initialize()
+bool Engine::init()
 {
-    if(!_graphicsEngine) _graphicsEngine = new GraphicsEngine;
-    if(!_sceneManager) _sceneManager = new SceneManager;
-
     return true;
 }
 
-void Engine::finalize()
+void Engine::release()
 {
-    if(_graphicsEngine) delete _graphicsEngine;
-    if(_sceneManager) delete _sceneManager;
 
-    _graphicsEngine = nullptr;
-    _sceneManager = nullptr;
-}
-
-GraphicsEngine &Engine::graphics()
-{
-    return *_graphicsEngine;
-}
-
-SceneManager &Engine::scene()
-{
-    return *_sceneManager;
 }
