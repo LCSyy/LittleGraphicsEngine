@@ -3,16 +3,23 @@ TEMPLATE = lib
 TARGET = LEngine
 CONFIG += c++14
 
-HEADERS += \
-    shared_library.h \
-    engine.h
-
 DESTDIR = $$PWD/../dist/bin
 
-sdk.path = $$PWD/../dist/include/
-sdk.files += $$PWD/*.h
+sdk_engine.path = $$PWD/../dist/include/
+sdk_engine.files += engine.h  shared_library.h
 
-INSTALLS += sdk
+sdk_renderer.path = $$PWD/../dist/include/renderer
+sdk_renderer.files += renderer/renderer.h
+
+INSTALLS += sdk_engine sdk_renderer
+
+HEADERS += \
+    shared_library.h \
+    engine.h \
+    renderer/renderer.h \
+    glad/glad.h
 
 SOURCES += \
-    engine.cpp
+    engine.cpp \
+    renderer/renderer.cpp \
+    glad.c

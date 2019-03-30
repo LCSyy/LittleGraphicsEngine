@@ -19,4 +19,7 @@
     // linux...
 #endif
 
+#define LENGINE_NAMESPACE_BEGIN namespace LEngine {
+#define LENGINE_NAMESPACE_END }
+
 #endif // SHARED_LIBRARY_H

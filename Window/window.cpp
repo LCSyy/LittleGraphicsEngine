@@ -5,6 +5,9 @@
 #include <QWheelEvent>
 #include <QDebug>
 #include "engine.h"
+#include "renderer/renderer.h"
+
+using namespace LEngine;
 
 Window::Window(QWindow *parent)
     : OpenGLWindow(parent)
@@ -17,9 +20,12 @@ Window::~Window()
 
 void Window::initialize()
 {
-    if(Engine::init()) {
-        qDebug() << "Ok";
+    if(!Engine::init()) {
+        qDebug() << "Engine init failed!";
+        return;
     }
+
+    Engine::renderer().init();
 }
 
 void Window::update()
