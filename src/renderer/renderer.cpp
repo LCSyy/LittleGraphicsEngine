@@ -17,16 +17,18 @@ Renderer::~Renderer()
 
 bool Renderer::init()
 {
-    // const GLubyte *renderer = glGetString(GL_RENDERER);
-    // const GLubyte *vendor   = glGetString(GL_VENDOR);
-    // const GLubyte *version  = glGetString(GL_VERSION);
-    // const GLubyte *shading_language_version = glGetString(GL_SHADING_LANGUAGE_VERSION);
-    //
-    // std::cout << renderer << std::endl;
-    // std::cout << vendor << std::endl;
-    // std::cout << version << std::endl;
-    // std::cout << shading_language_version << std::endl;
+    if(!gladLoadGL()) { return false; }
 
+    const GLubyte *renderer = glGetString(GL_RENDERER);
+    const GLubyte *vendor   = glGetString(GL_VENDOR);
+    const GLubyte *version  = glGetString(GL_VERSION);
+    const GLubyte *shading_lang_version = glGetString(GL_SHADING_LANGUAGE_VERSION);
+    if(!renderer || !vendor || !version || !shading_lang_version) {
+        std::cout << "gl init error!" << std::endl;
+        return false;
+    }
+
+    // init gl extension
     return true;
 }
 

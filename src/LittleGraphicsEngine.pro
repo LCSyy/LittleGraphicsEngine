@@ -2,6 +2,7 @@ DEFINES += LITTLE_GRAPHICS_ENGINE
 TEMPLATE = lib
 TARGET = LEngine
 CONFIG += c++14
+CONFIG -= qt
 
 DESTDIR = $$PWD/../dist/bin
 
@@ -17,9 +18,11 @@ HEADERS += \
     shared_library.h \
     engine.h \
     renderer/renderer.h \
-    glad/glad.h
+    glad/glad.h \
+    renderer/shaderprogrammanager.h
 
 SOURCES += \
     engine.cpp \
     renderer/renderer.cpp \
-    glad.c
+    glad.c \
+    renderer/shaderprogrammanager.cpp
