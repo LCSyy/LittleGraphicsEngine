@@ -19,6 +19,7 @@ HEADERS += \
     engine.h \
     renderer/renderer.h \
     glad/glad.h \
+    glad/KHR/khrplatform.h \
     renderer/shaderprogrammanager.h
 
 SOURCES += \

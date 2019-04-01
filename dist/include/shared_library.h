@@ -1,6 +1,11 @@
 ﻿#ifndef SHARED_LIBRARY_H
 #define SHARED_LIBRARY_H
 
+#define LENGINE_NAMESPACE_BEGIN namespace LEngine {
+#define LENGINE_NAMESPACE_END }
+
+LENGINE_NAMESPACE_BEGIN
+
 #if defined(_WIN32) || defined(__CYGWIN__)
     #ifdef LITTLE_GRAPHICS_ENGINE
         #ifdef __GNUC__
@@ -19,7 +24,7 @@
     // linux...
 #endif
 
-#define LENGINE_NAMESPACE_BEGIN namespace LEngine {
-#define LENGINE_NAMESPACE_END }
+#define DISABLE_COPY(ClassType) ClassType(const ClassType&); ClassType &operator=(const ClassType&);
 
+LENGINE_NAMESPACE_END
 #endif // SHARED_LIBRARY_H
