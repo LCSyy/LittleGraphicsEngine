@@ -5,6 +5,7 @@
 
 LENGINE_NAMESPACE_BEGIN
 
+class ShaderProgramManager;
 class ENGINE_API Renderer
 {
 public:
@@ -12,6 +13,11 @@ public:
     ~Renderer();
 
     bool init();
+    void render();
+    void resizeViewport(int w, int h);
+
+private:
+    ShaderProgramManager *shaderProgram{nullptr};
 };
 
 LENGINE_NAMESPACE_END

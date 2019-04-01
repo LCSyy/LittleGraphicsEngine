@@ -30,11 +30,12 @@ void Window::initialize()
 
 void Window::update()
 {
-
+    Engine::renderer().render();
 }
 
 void Window::frameResize(int w, int h)
 {
+    Engine::renderer().resizeViewport(w,h);
 }
 
 void Window::finalize()

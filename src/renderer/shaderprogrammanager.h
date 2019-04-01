@@ -30,6 +30,7 @@ public:
     bool setupLayered2DPipeline();
 
     void drawLayered2D();
+    void setLayer(GLfloat layer);
 private:
     GLuint createShader(ShaderType::Shader iShader, const char *src);
     GLuint createProgram();
@@ -38,6 +39,7 @@ private:
     void detachShader(GLuint program, GLuint shader);
     void detachShaders(GLuint program, const std::vector<GLuint> &shaders);
     bool linkProgram(GLuint program);
+
 private:
     ShaderProgramPrivate *d{nullptr};
 };
