@@ -55,7 +55,8 @@ bool Renderer::init()
     GLuint buffer = 0;
     glGenBuffers(1,&buffer); // gen unused buffer object names, then mark them as used
     glBindBuffer(GL_ARRAY_BUFFER,buffer); // create buffer object
-    glBufferData(GL_ARRAY_BUFFER,sizeof(triangle),triangle,GL_STATIC_DRAW);
+    // glBufferData(GL_ARRAY_BUFFER,sizeof(triangle),triangle,GL_STATIC_DRAW);
+    glBufferStorage(GL_ARRAY_BUFFER,sizeof(triangle),triangle,GL_MAP_WRITE_BIT);
     glVertexAttribPointer(0,2,GL_FLOAT,GL_FALSE,0,nullptr);
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER,0);
@@ -70,11 +71,7 @@ void Renderer::render()
     glBindVertexArray(vao);
     shaderProgram->drawLayered2D();
     shaderProgram->setLayer(1.0f);
-    glDrawArrays(GL_TRIANGLES,0,3);
-
-    shaderProgram->drawLayered2D();
-    shaderProgram->setLayer(2.0f);
-    glDrawArrays(GL_TRIANGLES,3,3);
+    glDrawArrays(GL_TRIANGLES,0,6);
 }
 
 void Renderer::resizeViewport(int w, int h)
