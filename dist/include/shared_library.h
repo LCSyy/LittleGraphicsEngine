@@ -21,7 +21,11 @@ LENGINE_NAMESPACE_BEGIN
         #endif
     #endif
 #elif __GNUC__ >= 4
-    // linux...
+    // #ifdef LITTLE_GRAPHICS_ENGINE
+        #define ENGINE_API __attribute__((visibility("default")))
+    // #else
+        // #define ENGINE_API
+    // #endif
 #endif
 
 #define DISABLE_COPY(ClassType) ClassType(const ClassType&); ClassType &operator=(const ClassType&);

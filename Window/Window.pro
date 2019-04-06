@@ -15,7 +15,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 DESTDIR = $$PWD/../dist/bin
 INCLUDEPATH += $$PWD/../dist/include
-LIBS += $$DESTDIR/libLEngine.a
+unix {
+    LIBS += -L$$DESTDIR/ -lLEngine
+} win32 {
+    LIBS += $$DESTDIR/libLEngine.a
+}
 
 SOURCES += \
         main.cpp \
