@@ -2,28 +2,29 @@
 
 #include <iostream>
 #include <cstring>
+#include <string>
 
 LENGINE_NAMESPACE_BEGIN
 
-const char layered2DVertexShaderSrc[] = {"#version 430 core;\n"
-                                            "layout(location=0) vec2 iPos;\n"
-                                            "uniform float layer;\n"
-                                            "void main() {\n"
-                                            "gl_Position = vec4(iPos,layer,1.0f);\n"
-                                            "}"};
-const char layered2DFragmentShaderSrc[] = {"#version 430 core;\n"
-                                           "out vec4 ioFragColor;"
-                                           "void main() {\n"
-                                           "ioFragColor=vec4(0.8f,0.2f,0.3f,1.0f);\n"
-                                           "}"};
+static const std::string layered2DVertexShaderSrc = {"#version 430 core\n"
+                                         "layout(location=0) in vec2 iPos;"
+                                         "uniform float layer;"
+                                         "void main() {"
+                                         "gl_Position = vec4(iPos,layer,1.0f);"
+                                         "}"};
+static const std::string layered2DFragmentShaderSrc = {"#version 430 core\n"
+                                        "out vec4 ioFragColor;"
+                                        "void main() {"
+                                        "ioFragColor=vec4(0.8f,0.0f,0.0f,1.0f);"
+                                        "}"};
 
 struct ShaderProgramPrivate
 {
-    ShaderProgramPrivate() {}
+ ShaderProgramPrivate() {}
 
-    GLuint layered2DProgram{0};
+ GLuint layered2DProgram{0};
 private:
-    DISABLE_COPY(ShaderProgramPrivate)
+ DISABLE_COPY(ShaderProgramPrivate)
 };
 
 /*!
@@ -81,8 +82,8 @@ ShaderProgramManager::~ShaderProgramManager()
 
 bool ShaderProgramManager::setupLayered2DPipeline()
 {
-    GLuint vertShader = createShader(ShaderType::VERTEX,layered2DVertexShaderSrc);
-    GLuint fragShader = createShader(ShaderType::FRAGMENT,layered2DFragmentShaderSrc);
+    GLuint vertShader = createShader(ShaderType::VERTEX,layered2DVertexShaderSrc.c_str());
+    GLuint fragShader = createShader(ShaderType::FRAGMENT,layered2DFragmentShaderSrc.c_str());
     d->layered2DProgram = createProgram();
     attachShaders(d->layered2DProgram,std::vector<GLuint>({vertShader,fragShader}));
     if(!linkProgram(d->layered2DProgram))
@@ -93,6 +94,12 @@ bool ShaderProgramManager::setupLayered2DPipeline()
 void ShaderProgramManager::drawLayered2D()
 {
     glUseProgram(d->layered2DProgram);
+}
+
+void ShaderProgramManager::setLayer(GLfloat layer)
+{
+    GLint loc = glGetUniformLocation(d->layered2DProgram,"layer");
+    glUniform1f(loc,layer);
 }
 
 GLuint ShaderProgramManager::createShader(ShaderType::Shader iShader, const char *src)
@@ -108,7 +115,7 @@ GLuint ShaderProgramManager::createShader(ShaderType::Shader iShader, const char
         break;
     case ShaderType::GEOMETRY: shaderType = GL_GEOMETRY_SHADER;
         break;
-    case ShaderType::FRAGMENT: shaderType = GL_GEOMETRY_SHADER;
+    case ShaderType::FRAGMENT: shaderType = GL_FRAGMENT_SHADER;
         break;
     case ShaderType::COMPUTE: shaderType = GL_COMPUTE_SHADER;
         break;

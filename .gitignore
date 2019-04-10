@@ -1,7 +1,12 @@
 ﻿*.exe
 *.o
+*.dll
+*.a
+*.lib
+*.so
 *.user
 *.autosave
 __pycache__
 .vscode
 build
+dist
