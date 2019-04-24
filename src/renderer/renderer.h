@@ -1,11 +1,15 @@
-#ifndef RENDERER_H
+﻿#ifndef RENDERER_H
 #define RENDERER_H
 
+#include <vector>
 #include "shared_library.h"
 
 LENGINE_NAMESPACE_BEGIN
 
+class BufferObject;
+class BufferManager;
 class ShaderProgramManager;
+
 class ENGINE_API Renderer
 {
 public:
@@ -17,7 +21,9 @@ public:
     void resizeViewport(int w, int h);
 
 private:
-    ShaderProgramManager *shaderProgram{nullptr};
+    BufferObject *buffer{nullptr};
+    BufferManager *buffers{nullptr};
+    ShaderProgramManager *shaderPrograms{nullptr};
 };
 
 LENGINE_NAMESPACE_END

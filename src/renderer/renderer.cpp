@@ -1,6 +1,8 @@
-#include "glad/glad.h"
+﻿#include "glad/glad.h"
 #include "renderer.h"
 #include "shaderprogrammanager.h"
+#include "buffermanager.h"
+#include "bufferobject.h"
 
 #include <iostream>
 
@@ -9,14 +11,17 @@ LENGINE_NAMESPACE_BEGIN
 static GLuint vao = 0;
 
 Renderer::Renderer()
-    : shaderProgram(new ShaderProgramManager)
+    : buffers(new BufferManager)
+    , shaderPrograms(new ShaderProgramManager)
 {
 
 }
 
 Renderer::~Renderer()
 {
-    if(shaderProgram) delete shaderProgram;
+    if(buffer) delete buffer;
+    if(buffers) delete buffers;
+    if(shaderPrograms) delete shaderPrograms;
 }
 
 bool Renderer::init()
@@ -36,7 +41,7 @@ bool Renderer::init()
 
     // glClearColor(0.2f,0.3f,0.4f,1.0f);
 
-    if(!shaderProgram->setupLayered2DPipeline()) {
+    if(!shaderPrograms->setupLayered2DPipeline()) {
         std::cout << "setup 2d failed" << std::endl;
         return false;
     }
@@ -50,17 +55,16 @@ bool Renderer::init()
         -0.25f,0.5f
     };
 
+
     glGenVertexArrays(1,&vao);
     glBindVertexArray(vao);
-    GLuint buffer = 0;
-    glGenBuffers(1,&buffer); // gen unused buffer object names, then mark them as used
-    glBindBuffer(GL_ARRAY_BUFFER,buffer); // create buffer object
-    // glBufferData(GL_ARRAY_BUFFER,sizeof(triangle),triangle,GL_STATIC_DRAW);
-    glBufferStorage(GL_ARRAY_BUFFER,sizeof(triangle),triangle,GL_MAP_WRITE_BIT);
+    buffer = new ArrayBufferObject;
+    buffer->bind();
+    buffer->bufferData(sizeof(triangle),triangle,GL_STATIC_DRAW);
     glVertexAttribPointer(0,2,GL_FLOAT,GL_FALSE,0,nullptr);
     glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER,0);
     glBindVertexArray(0);
+    buffer->unbind();
 
     return true;
 }
@@ -69,8 +73,8 @@ void Renderer::render()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glBindVertexArray(vao);
-    shaderProgram->drawLayered2D();
-    shaderProgram->setLayer(1.0f);
+    shaderPrograms->drawLayered2D();
+    shaderPrograms->setLayer(1.0f);
     glDrawArrays(GL_TRIANGLES,0,6);
 }
 

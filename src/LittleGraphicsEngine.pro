@@ -21,11 +21,13 @@ HEADERS += \
     glad/glad.h \
     glad/KHR/khrplatform.h \
     renderer/shaderprogrammanager.h \
-    renderer/buffermanager.h
+    renderer/buffermanager.h \
+    renderer/bufferobject.h
 
 SOURCES += \
     engine.cpp \
     renderer/renderer.cpp \
     glad.c \
     renderer/shaderprogrammanager.cpp \
-    renderer/buffermanager.cpp
+    renderer/buffermanager.cpp \
+    renderer/bufferobject.cpp
