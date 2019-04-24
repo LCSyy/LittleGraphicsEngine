@@ -15,7 +15,7 @@ static const std::string layered2DVertexShaderSrc = {"#version 430 core\n"
 static const std::string layered2DFragmentShaderSrc = {"#version 430 core\n"
                                         "out vec4 ioFragColor;"
                                         "void main() {"
-                                        "ioFragColor=vec4(0.8f,0.0f,0.0f,1.0f);"
+                                        "ioFragColor=vec4(0.3f,0.6f,0.4f,1.0f);"
                                         "}"};
 
 struct ShaderProgramPrivate
