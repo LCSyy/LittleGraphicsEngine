@@ -1,12 +1,11 @@
 ﻿#ifndef BUFFEROBJECT_H
 #define BUFFEROBJECT_H
 
-#include "glad/glad.h"
-#include "shared_library.h"
+#include "globject.h"
 
 LENGINE_NAMESPACE_BEGIN
 
-class BufferObject
+class BufferObject: public GLObject
 {
 public:
     BufferObject();
@@ -14,7 +13,6 @@ public:
 
     void bind();
     void unbind();
-    GLuint name() const;
 
     void bufferData(GLsizeiptr size, const void *data, GLenum usage);
     void bufferSubData(GLintptr offset, GLsizeiptr size, const void *data);
@@ -27,9 +25,6 @@ public:
 
 protected:
     virtual GLenum target() const = 0;
-
-protected:
-    GLuint _buffer;
 };
 
 class ArrayBufferObject: public BufferObject

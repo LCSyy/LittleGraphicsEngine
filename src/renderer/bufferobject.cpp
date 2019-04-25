@@ -4,27 +4,22 @@ LENGINE_NAMESPACE_BEGIN
 
 BufferObject::BufferObject()
 {
-    glGenBuffers(1,&_buffer);
+    glGenBuffers(1,&_name);
 }
 
 BufferObject::~BufferObject()
 {
-    glDeleteBuffers(1,&_buffer);
+    glDeleteBuffers(1,&_name);
 }
 
 void BufferObject::bind()
 {
-    glBindBuffer(target(),_buffer);
+    glBindBuffer(target(),_name);
 }
 
 void BufferObject::unbind()
 {
     glBindBuffer(target(),0);
-}
-
-GLuint BufferObject::name() const
-{
-    return _buffer;
 }
 
 void BufferObject::bufferData(GLsizeiptr size, const void *data, GLenum usage)

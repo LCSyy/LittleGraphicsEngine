@@ -22,7 +22,9 @@ HEADERS += \
     glad/KHR/khrplatform.h \
     renderer/shaderprogrammanager.h \
     renderer/buffermanager.h \
-    renderer/bufferobject.h
+    renderer/bufferobject.h \
+    renderer/globject.h \
+    renderer/texture.h
 
 SOURCES += \
     engine.cpp \
@@ -30,4 +32,6 @@ SOURCES += \
     glad.c \
     renderer/shaderprogrammanager.cpp \
     renderer/buffermanager.cpp \
-    renderer/bufferobject.cpp
+    renderer/bufferobject.cpp \
+    renderer/globject.cpp \
+    renderer/texture.cpp
