@@ -20,11 +20,11 @@ static const std::string layered2DFragmentShaderSrc = {"#version 430 core\n"
 
 struct ShaderProgramPrivate
 {
- ShaderProgramPrivate() {}
+    ShaderProgramPrivate() {}
 
- GLuint layered2DProgram{0};
+    GLuint layered2DProgram{0};
 private:
- DISABLE_COPY(ShaderProgramPrivate)
+    DISABLE_COPY(ShaderProgramPrivate)
 };
 
 /*!
