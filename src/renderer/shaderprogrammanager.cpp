@@ -6,27 +6,6 @@
 
 LENGINE_NAMESPACE_BEGIN
 
-static const std::string layered2DVertexShaderSrc = {"#version 430 core\n"
-                                         "layout(location=0) in vec2 iPos;"
-                                         "uniform float layer;"
-                                         "void main() {"
-                                         "gl_Position = vec4(iPos,layer,1.0f);"
-                                         "}"};
-static const std::string layered2DFragmentShaderSrc = {"#version 430 core\n"
-                                        "out vec4 ioFragColor;"
-                                        "void main() {"
-                                        "ioFragColor=vec4(0.3f,0.6f,0.4f,1.0f);"
-                                        "}"};
-
-struct ShaderProgramPrivate
-{
-    ShaderProgramPrivate() {}
-
-    GLuint layered2DProgram{0};
-private:
-    DISABLE_COPY(ShaderProgramPrivate)
-};
-
 /*!
  * \class ShaderProgramManager
  * \brief ShaderProgramManager类用于生成、管理、销毁shader和program对象。
@@ -69,37 +48,12 @@ private:
  * 输出变量管理着色器执行的返回结果，它可作为管线下一阶段的输入。
  */
 ShaderProgramManager::ShaderProgramManager()
-    : d(new ShaderProgramPrivate)
 {
 
 }
 
 ShaderProgramManager::~ShaderProgramManager()
 {
-    if(d) delete d;
-    d = nullptr;
-}
-
-bool ShaderProgramManager::setupLayered2DPipeline()
-{
-    GLuint vertShader = createShader(ShaderType::VERTEX,layered2DVertexShaderSrc.c_str());
-    GLuint fragShader = createShader(ShaderType::FRAGMENT,layered2DFragmentShaderSrc.c_str());
-    d->layered2DProgram = createProgram();
-    attachShaders(d->layered2DProgram,std::vector<GLuint>({vertShader,fragShader}));
-    if(!linkProgram(d->layered2DProgram))
-        return false;
-    return true;
-}
-
-void ShaderProgramManager::drawLayered2D()
-{
-    glUseProgram(d->layered2DProgram);
-}
-
-void ShaderProgramManager::setLayer(GLfloat layer)
-{
-    GLint loc = glGetUniformLocation(d->layered2DProgram,"layer");
-    glUniform1f(loc,layer);
 }
 
 GLuint ShaderProgramManager::createShader(ShaderType::Shader iShader, const char *src)
@@ -183,6 +137,12 @@ bool ShaderProgramManager::linkProgram(GLuint program)
         return false;
     }
     return true;
+}
+
+void ShaderProgramManager::setMat4Value(GLuint program, const GLchar *name, const GLfloat *data)
+{
+    GLint loc = glGetUniformLocation(program,name);
+    glUniformMatrix4fv(loc,1,GL_FALSE,data);
 }
 
 LENGINE_NAMESPACE_END

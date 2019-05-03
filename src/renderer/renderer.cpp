@@ -9,6 +9,31 @@
 LENGINE_NAMESPACE_BEGIN
 
 static GLuint vao = 0;
+static GLuint shaderProgram = 0;
+
+static const std::string layered2DVertexShaderSrc = {"#version 430 core\n"
+                                         "layout(location=0) in vec2 iPos;"
+                                         "uniform float layer;"
+                                         "void main() {"
+                                         "gl_Position = vec4(iPos,layer,1.0f);"
+                                         "}"};
+static const std::string layered2DFragmentShaderSrc = {"#version 430 core\n"
+                                        "out vec4 ioFragColor;"
+                                        "void main() {"
+                                        "ioFragColor=vec4(0.3f,0.6f,0.4f,1.0f);"
+                                        "}"};
+
+static const std::string spatialVertexShaderSrc = {"#version 430 core\n"
+                                                   "layout(location=0) in vec3 iPos;"
+                                                   "uniform mat4 project;"
+                                                   "void main(){"
+                                                   "gl_Position = project * vec4(iPos,1.0f);"
+                                                   "}"};
+static const std::string spatialFragmentShaderSrc = {"#version 430 core\n"
+                                                     "out vec4 ioFragColor;"
+                                                     "void main(){"
+                                                     "ioFragColor = vec4(1.0f,0.2f,0.2f,1.0f);"
+                                                     "}"};
 
 Renderer::Renderer()
     : buffers(new BufferManager)
@@ -39,33 +64,29 @@ bool Renderer::init()
 
     // init gl extension
 
-    // glClearColor(0.2f,0.3f,0.4f,1.0f);
-
-    if(!shaderPrograms->setupLayered2DPipeline()) {
-        std::cout << "setup 2d failed" << std::endl;
-        return false;
+    GLuint vertShader = shaderPrograms->createShader(ShaderType::VERTEX,spatialVertexShaderSrc.c_str());
+    GLuint fragShader = shaderPrograms->createShader(ShaderType::FRAGMENT,spatialFragmentShaderSrc.c_str());
+    shaderProgram = shaderPrograms->createProgram();
+    shaderPrograms->attachShaders(shaderProgram,std::vector<GLuint>({vertShader,fragShader}));
+    if(!shaderPrograms->linkProgram(shaderProgram)) {
+        std::cerr << "setup 3d failed!" << std::endl;
     }
 
-    GLfloat triangle[]= {
-        0.0f,0.0f,
-        0.5f,0.0f,
-        0.25f,0.5f,
-        0.0f,0.0f,
-        -0.5f,0.0f,
-        -0.25f,0.5f
+    GLfloat cube[]= {
+        -5.0f,-1.0f,5.0f,
+        0.0f,-1.0f,0.0f,
+        5.0f,-1.0f,5.0f
     };
-
 
     glGenVertexArrays(1,&vao);
     glBindVertexArray(vao);
     buffer = new ArrayBufferObject;
     buffer->bind();
-    buffer->bufferData(sizeof(triangle),triangle,GL_STATIC_DRAW);
-    glVertexAttribPointer(0,2,GL_FLOAT,GL_FALSE,0,nullptr);
+    buffer->bufferData(sizeof(cube),cube,GL_STATIC_DRAW);
+    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,nullptr);
     glEnableVertexAttribArray(0);
     glBindVertexArray(0);
     buffer->unbind();
-
     return true;
 }
 
@@ -73,9 +94,14 @@ void Renderer::render()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glBindVertexArray(vao);
-    shaderPrograms->drawLayered2D();
-    shaderPrograms->setLayer(1.0f);
-    glDrawArrays(GL_TRIANGLES,0,6);
+    glUseProgram(shaderProgram);
+    static GLfloat projection[16] = {1.0f,0.0f,0.0f,0.0f,
+                                    0.0f,1.0f,0.0f,0.0f,
+                                    0.0f,0.0f,1.0f,1.0f,
+                                    0.0f,0.0f,0.0f,1.0f};
+
+    shaderPrograms->setMat4Value(shaderProgram,"project",projection);
+    glDrawArrays(GL_TRIANGLES,0,3);
 }
 
 void Renderer::resizeViewport(int w, int h)
