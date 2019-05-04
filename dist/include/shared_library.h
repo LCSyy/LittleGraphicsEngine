@@ -29,6 +29,7 @@ LENGINE_NAMESPACE_BEGIN
 #endif
 
 #define DISABLE_COPY(ClassType) ClassType(const ClassType&); ClassType &operator=(const ClassType&);
+#define FLOAT_PRECISE 0.001f
 
 LENGINE_NAMESPACE_END
 #endif // SHARED_LIBRARY_H

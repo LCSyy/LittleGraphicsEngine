@@ -3,6 +3,10 @@
 
 #include "openglwindow.h"
 
+namespace LEngine {
+struct Camera3D;
+}
+
 class Window: public OpenGLWindow
 {
     Q_OBJECT
@@ -23,6 +27,10 @@ protected:
     void mouseReleaseEvent(QMouseEvent *ev) override;
     void wheelEvent(QWheelEvent *ev) override;
 
+private:
+    LEngine::Camera3D *mCamera{nullptr};
+    QPoint mLatestPoint;
+    bool mPressed{false};
 };
 
 #endif // WINDOW_H

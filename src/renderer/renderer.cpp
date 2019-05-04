@@ -3,6 +3,7 @@
 #include "shaderprogrammanager.h"
 #include "buffermanager.h"
 #include "bufferobject.h"
+#include "scene/camera3d.h"
 
 #include <iostream>
 
@@ -25,9 +26,9 @@ static const std::string layered2DFragmentShaderSrc = {"#version 430 core\n"
 
 static const std::string spatialVertexShaderSrc = {"#version 430 core\n"
                                                    "layout(location=0) in vec3 iPos;"
-                                                   "uniform mat4 project;"
+                                                   "uniform mat4 mvp;"
                                                    "void main(){"
-                                                   "gl_Position = project * vec4(iPos,1.0f);"
+                                                   "gl_Position = mvp * vec4(iPos,1.0f);"
                                                    "}"};
 static const std::string spatialFragmentShaderSrc = {"#version 430 core\n"
                                                      "out vec4 ioFragColor;"
@@ -73,9 +74,9 @@ bool Renderer::init()
     }
 
     GLfloat cube[]= {
-        -5.0f,-1.0f,5.0f,
-        0.0f,-1.0f,0.0f,
-        5.0f,-1.0f,5.0f
+        -5.0f,-1.0f,0.0f,
+         5.0f,-1.0f,0.0f,
+         0.0f,-1.0f,5.0f
     };
 
     glGenVertexArrays(1,&vao);
@@ -95,18 +96,20 @@ void Renderer::render()
     glClear(GL_COLOR_BUFFER_BIT);
     glBindVertexArray(vao);
     glUseProgram(shaderProgram);
-    static GLfloat projection[16] = {1.0f,0.0f,0.0f,0.0f,
-                                    0.0f,1.0f,0.0f,0.0f,
-                                    0.0f,0.0f,1.0f,1.0f,
-                                    0.0f,0.0f,0.0f,1.0f};
-
-    shaderPrograms->setMat4Value(shaderProgram,"project",projection);
+    if(mCamera) {
+        shaderPrograms->setMat4Value(shaderProgram,"mvp",mCamera->m);
+    }
     glDrawArrays(GL_TRIANGLES,0,3);
 }
 
 void Renderer::resizeViewport(int w, int h)
 {
     glViewport(0,0,w,h);
+}
+
+void Renderer::setCamera(Camera3D *camera)
+{
+    mCamera = camera;
 }
 
 LENGINE_NAMESPACE_END
