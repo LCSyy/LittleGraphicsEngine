@@ -10,10 +10,10 @@ LENGINE_NAMESPACE_BEGIN
 struct Camera3D: public Matrix4x4
 {
     Camera3D(const Vector3D &_camPos) {
-        setPos(_camPos);
         setRight(Vector3D(1.0f,0.0f,0.0f));
         setUp(Vector3D(0.0f,1.0f,0.0f));
-        setFront(Vector3D(0.0f,0.0f,1.0f));
+        setFront(Vector3D(0.0f,0.0f,-1.0f));
+        setPos(_camPos);
     }
 
     void setPos(const Vector3D &_camPos) {
