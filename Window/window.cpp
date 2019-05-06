@@ -1,5 +1,7 @@
 ﻿#include "window.h"
+#include <cmath>
 #include <QFile>
+#include <QKeyEvent>
 #include <QTextStream>
 #include <QMouseEvent>
 #include <QWheelEvent>
@@ -28,7 +30,7 @@ void Window::initialize()
     }
 
     Engine::renderer().init();
-    mCamera = new Camera3D;
+    mCamera = new Camera3D(Vector3D(0.0f,0.0f,-1.0f));
     Engine::renderer().setCamera(mCamera);
 }
 
@@ -46,20 +48,68 @@ void Window::finalize()
 {
 }
 
+void Window::keyPressEvent(QKeyEvent *ev)
+{
+    Vector3D v(mCamera->camPos);
+
+    float step = 0.1f;
+    switch(ev->key()) {
+    case Qt::Key_W:
+        mCamera->setPos(Vector3D(v.x,v.y+step,v.z));
+        break;
+    case Qt::Key_S:
+        mCamera->setPos(Vector3D(v.x,v.y-step,v.z));
+        break;
+    case Qt::Key_A:
+        mCamera->setPos(Vector3D(v.x-step,v.y,v.z));
+        break;
+    case Qt::Key_D:
+        mCamera->setPos(Vector3D(v.x+step,v.y,v.z));
+        break;
+    }
+}
+
 void Window::mouseMoveEvent(QMouseEvent *ev)
 {
     if(mPressed) {
-        QPoint deltaPos = ev->pos() - mLatestPoint;
-        mCamera->m[12] += deltaPos.x() * -0.001f;
-        mCamera->m[13] += deltaPos.y() * 0.001f;
-        mLatestPoint = ev->pos();
+        Vector3D v;
+        float pitch = mCamera->camEuler.x;
+        float yaw = mCamera->camEuler.y;
+        // float roll = mCamera->camEuler.z;
+        float pitchStep = PI/180.0f;
+        float yawStep   = pitchStep;
+        // float rollStep
+        QPoint deltaPos = ev->pos() - mLatestPos;
+        if(deltaPos.x() > 0) { // look at right
+            yaw -= yawStep;
+        } else if(deltaPos.x() < 0) {
+            yaw += yawStep;
+        }
+        if(deltaPos.y() > 0) {
+            pitch += pitchStep;
+        } else if(deltaPos.y() < 0) {
+            pitch -= pitchStep;
+        }
+        if(pitch > PI/2) pitch = PI/2 - pitchStep;
+        else if(pitch < -(PI/2)) pitch = -PI/2 + pitchStep;
+        if(yaw > PI/2) yaw = PI/2 - yawStep;
+        else if(yaw < -(PI/2)) yaw = -PI/2 + yawStep;
+
+        v.x = std::cos(pitch) * std::cos(yaw);
+        v.y = std::sin(pitch);
+        v.z = std::cos(pitch) * std::sin(yaw);
+        mCamera->setFront(v);
+        mCamera->camEuler.x = pitch;
+        mCamera->camEuler.y = yaw;
+        mCamera->camPos.z = 0;
+        mLatestPos = ev->pos();
     }
 }
 
 void Window::mousePressEvent(QMouseEvent *ev)
 {
     mPressed = true;
-    mLatestPoint = ev->pos();
+    mLatestPos = ev->pos();
 }
 
 void Window::mouseReleaseEvent(QMouseEvent *ev)

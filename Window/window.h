@@ -22,6 +22,7 @@ protected:
     void frameResize(int w, int h) override;
     void finalize() override;
 
+    void keyPressEvent(QKeyEvent *ev) override;
     void mouseMoveEvent(QMouseEvent *ev) override;
     void mousePressEvent(QMouseEvent *ev) override;
     void mouseReleaseEvent(QMouseEvent *ev) override;
@@ -29,7 +30,7 @@ protected:
 
 private:
     LEngine::Camera3D *mCamera{nullptr};
-    QPoint mLatestPoint;
+    QPoint mLatestPos;
     bool mPressed{false};
 };
 
