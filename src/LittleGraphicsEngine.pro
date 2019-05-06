@@ -4,6 +4,8 @@ TARGET = LEngine
 CONFIG += c++14
 CONFIG -= qt
 
+INCLUDEPATH += $$PWD/thirdparty
+
 DESTDIR = $$PWD/../dist/bin
 
 sdk_engine.path = $$PWD/../dist/include/
@@ -31,8 +33,6 @@ HEADERS += \
     shared_library.h \
     engine.h \
     renderer/renderer.h \
-    glad/glad.h \
-    glad/KHR/khrplatform.h \
     renderer/shaderprogrammanager.h \
     renderer/buffermanager.h \
     renderer/bufferobject.h \
@@ -40,9 +40,9 @@ HEADERS += \
     renderer/texture.h
 
 SOURCES += \
+    thirdparty/glad/glad.c \
     engine.cpp \
     renderer/renderer.cpp \
-    glad.c \
     renderer/shaderprogrammanager.cpp \
     renderer/buffermanager.cpp \
     renderer/bufferobject.cpp \
