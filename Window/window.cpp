@@ -30,7 +30,7 @@ void Window::initialize()
     }
 
     Engine::renderer().init();
-    mCamera = new Camera3D(Vector3D(0.0f,0.0f,-1.0f));
+    mCamera = new Camera3D(Vector3D(0.0f,0.0f,1.0f));
     Engine::renderer().setCamera(mCamera);
 }
 

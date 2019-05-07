@@ -25,6 +25,7 @@ public:
 
 private:
     BufferObject *buffer{nullptr};
+    BufferObject *eleBuffer{nullptr};
     BufferManager *buffers{nullptr};
     ShaderProgramManager *shaderPrograms{nullptr};
     Camera3D *mCamera{nullptr};

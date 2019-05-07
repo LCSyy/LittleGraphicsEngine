@@ -46,6 +46,7 @@ Renderer::Renderer()
 Renderer::~Renderer()
 {
     if(buffer) delete buffer;
+    if(eleBuffer) delete eleBuffer;
     if(buffers) delete buffers;
     if(shaderPrograms) delete shaderPrograms;
 }
@@ -74,9 +75,14 @@ bool Renderer::init()
     }
 
     GLfloat cube[]= {
-        -5.0f,-1.0f,0.0f,
-         5.0f,-1.0f,0.0f,
-         0.0f,-1.0f,5.0f
+        0.0f,0.0f,0.0f,
+        5.0f,0.0f,0.0f,
+        0.0f,5.0f,0.0f,
+        0.0f,0.0f,5.0f
+    };
+
+    GLuint indices[] = {
+        0,1,0,2,0,3
     };
 
     glGenVertexArrays(1,&vao);
@@ -85,6 +91,11 @@ bool Renderer::init()
     buffer->bind();
     buffer->bufferData(sizeof(cube),cube,GL_STATIC_DRAW);
     glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,nullptr);
+
+    eleBuffer = new ElementBufferObject;
+    eleBuffer->bind();
+    eleBuffer->bufferData(sizeof(indices),indices,GL_STATIC_DRAW);
+
     glEnableVertexAttribArray(0);
     glBindVertexArray(0);
     buffer->unbind();
@@ -99,7 +110,8 @@ void Renderer::render()
     if(mCamera) {
         shaderPrograms->setMat4Value(shaderProgram,"mvp",mCamera->m);
     }
-    glDrawArrays(GL_TRIANGLES,0,3);
+    // glDrawArrays(GL_TRIANGLES,0,3);
+    glDrawElements(GL_LINES,6,GL_UNSIGNED_INT,nullptr);
 }
 
 void Renderer::resizeViewport(int w, int h)

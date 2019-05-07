@@ -63,5 +63,16 @@ ArrayBufferObject::~ArrayBufferObject()
 
 }
 
+ElementBufferObject::ElementBufferObject()
+    : BufferObject ()
+{
+
+}
+
+ElementBufferObject::~ElementBufferObject()
+{
+
+}
+
 
 LENGINE_NAMESPACE_END

@@ -32,9 +32,17 @@ class ArrayBufferObject: public BufferObject
 public:
     ArrayBufferObject();
     ~ArrayBufferObject() override;
-
 protected:
     GLenum target() const override { return GL_ARRAY_BUFFER; }
+};
+
+class ElementBufferObject: public BufferObject
+{
+public:
+    ElementBufferObject();
+    ~ElementBufferObject() override;
+protected:
+    GLenum target() const override { return GL_ELEMENT_ARRAY_BUFFER; }
 };
 
 LENGINE_NAMESPACE_END
