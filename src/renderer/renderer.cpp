@@ -104,7 +104,7 @@ bool Renderer::init()
 
 void Renderer::render()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glBindVertexArray(vao);
     glUseProgram(shaderProgram);
     if(mCamera) {

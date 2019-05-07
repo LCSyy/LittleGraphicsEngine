@@ -15,6 +15,7 @@ using namespace LEngine;
 Window::Window(QWindow *parent)
     : OpenGLWindow(parent)
 {
+    resize(400,400);
 }
 
 Window::~Window()
@@ -30,7 +31,12 @@ void Window::initialize()
     }
 
     Engine::renderer().init();
-    mCamera = new Camera3D(Vector3D(0.0f,0.0f,1.0f));
+    mCamera = new Camera3D(Vector3D(0.0f,0.0f,0.0f));
+    float rad = 0.0f;
+    mCamera->m[0] = std::cos(rad);mCamera->m[4] = -std::sin(rad);mCamera->m[8] = 0.0f;mCamera->m[12] = 0.0f;
+    mCamera->m[1] = std::sin(rad);mCamera->m[5] = std::cos(rad);mCamera->m[9] = 0.0f;mCamera->m[13] = 0.0f;
+    mCamera->m[2] = 0.0f;mCamera->m[6] = 0.0f;mCamera->m[10] = 1.0f;mCamera->m[14] = 0.0f;
+    mCamera->m[3] = 0.0f;mCamera->m[7] = 0.0f;mCamera->m[11] = -2.0f;mCamera->m[15] = 1.0f;
     Engine::renderer().setCamera(mCamera);
 }
 
@@ -73,35 +79,20 @@ void Window::mouseMoveEvent(QMouseEvent *ev)
 {
     if(mPressed) {
         Vector3D v;
-        float pitch = mCamera->camEuler.x;
-        float yaw = mCamera->camEuler.y;
-        // float roll = mCamera->camEuler.z;
-        float pitchStep = PI/180.0f;
-        float yawStep   = pitchStep;
-        // float rollStep
-        QPoint deltaPos = ev->pos() - mLatestPos;
-        if(deltaPos.x() > 0) { // look at right
-            yaw -= yawStep;
-        } else if(deltaPos.x() < 0) {
-            yaw += yawStep;
+        float yRad = mCamera->camEuler.y;
+        float yStep = PI/180.0f;
+        QPoint delta = ev->pos() - mLatestPos;
+        if(delta.x() > 0) {
+            yRad += yStep;
+        } else if(delta.x() < 0) {
+            yRad -= yStep;
         }
-        if(deltaPos.y() > 0) {
-            pitch += pitchStep;
-        } else if(deltaPos.y() < 0) {
-            pitch -= pitchStep;
-        }
-        if(pitch > PI/2) pitch = PI/2 - pitchStep;
-        else if(pitch < -(PI/2)) pitch = -PI/2 + pitchStep;
-        if(yaw > PI/2) yaw = PI/2 - yawStep;
-        else if(yaw < -(PI/2)) yaw = -PI/2 + yawStep;
 
-        v.x = std::cos(pitch) * std::cos(yaw);
-        v.y = std::sin(pitch);
-        v.z = std::cos(pitch) * std::sin(yaw);
-        mCamera->setFront(v);
-        mCamera->camEuler.x = pitch;
-        mCamera->camEuler.y = yaw;
-        mCamera->camPos.z = 0;
+        mCamera->m[0] = std::cos(yRad);
+        mCamera->m[8] = -std::sin(yRad);
+        mCamera->m[2] = std::sin(yRad);
+        mCamera->m[10] = std::cos(yRad);
+        mCamera->camEuler.y = yRad;
         mLatestPos = ev->pos();
     }
 }
