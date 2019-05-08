@@ -2,9 +2,10 @@
 #define WINDOW_H
 
 #include "openglwindow.h"
+#include <QMatrix4x4>
 
 namespace LEngine {
-struct Camera3D;
+struct Matrix4x4;
 }
 
 class Window: public OpenGLWindow
@@ -29,7 +30,10 @@ protected:
     void wheelEvent(QWheelEvent *ev) override;
 
 private:
-    LEngine::Camera3D *mCamera{nullptr};
+    QMatrix4x4 model;
+    QMatrix4x4 view;
+    QMatrix4x4 projection;
+    LEngine::Matrix4x4 *mCamera{nullptr};
     QPoint mLatestPos;
     bool mPressed{false};
 };

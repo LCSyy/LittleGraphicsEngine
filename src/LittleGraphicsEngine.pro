@@ -18,7 +18,10 @@ sdk_core_math.path = $$PWD/../dist/include/core/math
 sdk_core_math.files += \
     core/math/matrix4x4.h \
     core/math/point2d.h \
-    core/math/vector3d.h
+    core/math/point3d.h \
+    core/math/vector2d.h \
+    core/math/vector3d.h \
+    core/math/vector4d.h
 
 sdk_scene.path = $$PWD/../dist/include/scene
 sdk_scene.files = scene/camera3d.h
@@ -28,7 +31,11 @@ INSTALLS += sdk_engine sdk_renderer sdk_core_math sdk_scene
 HEADERS += \
     core/math/matrix4x4.h \
     core/math/point2d.h \
+    core/math/point3d.h \
+    core/math/quaternion.h \
+    core/math/vector2d.h \
     core/math/vector3d.h \
+    core/math/vector4d.h \
     scene/camera3d.h \
     shared_library.h \
     engine.h \

@@ -9,7 +9,7 @@ LENGINE_NAMESPACE_BEGIN
 class BufferObject;
 class BufferManager;
 class ShaderProgramManager;
-struct Camera3D;
+struct Matrix4x4;
 
 class ENGINE_API Renderer
 {
@@ -21,14 +21,14 @@ public:
     void render();
     void resizeViewport(int w, int h);
 
-    void setCamera(Camera3D *camera);
+    void setCamera(Matrix4x4 *camera);
 
 private:
     BufferObject *buffer{nullptr};
     BufferObject *eleBuffer{nullptr};
     BufferManager *buffers{nullptr};
     ShaderProgramManager *shaderPrograms{nullptr};
-    Camera3D *mCamera{nullptr};
+    Matrix4x4 *mCamera{nullptr};
 };
 
 LENGINE_NAMESPACE_END

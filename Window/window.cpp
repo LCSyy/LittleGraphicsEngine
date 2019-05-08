@@ -1,14 +1,16 @@
 ﻿#include "window.h"
 #include <cmath>
+#include <cstring>
 #include <QFile>
 #include <QKeyEvent>
 #include <QTextStream>
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QDebug>
+#include <QMatrix4x4>
 #include "engine.h"
 #include "renderer/renderer.h"
-#include "scene/camera3d.h"
+#include "core/math/matrix4x4.h"
 
 using namespace LEngine;
 
@@ -31,17 +33,18 @@ void Window::initialize()
     }
 
     Engine::renderer().init();
-    mCamera = new Camera3D(Vector3D(0.0f,0.0f,0.0f));
-    float rad = 0.0f;
-    mCamera->m[0] = std::cos(rad);mCamera->m[4] = -std::sin(rad);mCamera->m[8] = 0.0f;mCamera->m[12] = 0.0f;
-    mCamera->m[1] = std::sin(rad);mCamera->m[5] = std::cos(rad);mCamera->m[9] = 0.0f;mCamera->m[13] = 0.0f;
-    mCamera->m[2] = 0.0f;mCamera->m[6] = 0.0f;mCamera->m[10] = 1.0f;mCamera->m[14] = 0.0f;
-    mCamera->m[3] = 0.0f;mCamera->m[7] = 0.0f;mCamera->m[11] = -2.0f;mCamera->m[15] = 1.0f;
+    model.scale(1.0f);
+    view.scale(1.0f);
+    projection.scale(1.0f);
+    projection.perspective(75.0f,static_cast<float>(width())/height(),0.1f,100.0f);
+    mCamera = new Matrix4x4;
     Engine::renderer().setCamera(mCamera);
 }
 
 void Window::update()
 {
+    QMatrix4x4 mvp{model*view*projection};
+    std::memcpy(mCamera->m,mvp.data(),sizeof(float)*16);
     Engine::renderer().render();
 }
 
@@ -56,45 +59,52 @@ void Window::finalize()
 
 void Window::keyPressEvent(QKeyEvent *ev)
 {
-    Vector3D v(mCamera->camPos);
+    Q_UNUSED(ev)
 
     float step = 0.1f;
     switch(ev->key()) {
     case Qt::Key_W:
-        mCamera->setPos(Vector3D(v.x,v.y+step,v.z));
+        model.translate(0.0f,-step,0.0f);
         break;
     case Qt::Key_S:
-        mCamera->setPos(Vector3D(v.x,v.y-step,v.z));
+        model.translate(0.0f,step,0.0f);
         break;
     case Qt::Key_A:
-        mCamera->setPos(Vector3D(v.x-step,v.y,v.z));
+        model.translate(-step,0.0f,0.0f);
         break;
     case Qt::Key_D:
-        mCamera->setPos(Vector3D(v.x+step,v.y,v.z));
+        model.translate(step,0.0f,0.0f);
+        break;
+    case Qt::Key_Up:
+        model.translate(0.0f,0.0f,step);
+        break;
+    case Qt::Key_Down:
+        model.translate(0.0f,0.0f,-step);
         break;
     }
 }
 
 void Window::mouseMoveEvent(QMouseEvent *ev)
 {
-    if(mPressed) {
-        Vector3D v;
-        float yRad = mCamera->camEuler.y;
-        float yStep = PI/180.0f;
-        QPoint delta = ev->pos() - mLatestPos;
-        if(delta.x() > 0) {
-            yRad += yStep;
-        } else if(delta.x() < 0) {
-            yRad -= yStep;
-        }
-
-        mCamera->m[0] = std::cos(yRad);
-        mCamera->m[8] = -std::sin(yRad);
-        mCamera->m[2] = std::sin(yRad);
-        mCamera->m[10] = std::cos(yRad);
-        mCamera->camEuler.y = yRad;
-        mLatestPos = ev->pos();
-    }
+    Q_UNUSED(ev)
+    // if(mPressed) {
+    //     Vector3D v;
+    //     float yRad = mCamera->camEuler.y;
+    //     float yStep = PI/180.0f;
+    //     QPoint delta = ev->pos() - mLatestPos;
+    //     if(delta.x() > 0) {
+    //         yRad += yStep;
+    //     } else if(delta.x() < 0) {
+    //         yRad -= yStep;
+    //     }
+    //
+    //     mCamera->m[0] = std::cos(yRad);
+    //     mCamera->m[8] = -std::sin(yRad);
+    //     mCamera->m[2] = std::sin(yRad);
+    //     mCamera->m[10] = std::cos(yRad);
+    //     mCamera->camEuler.y = yRad;
+    //     mLatestPos = ev->pos();
+    // }
 }
 
 void Window::mousePressEvent(QMouseEvent *ev)
@@ -111,15 +121,17 @@ void Window::mouseReleaseEvent(QMouseEvent *ev)
 
 void Window::wheelEvent(QWheelEvent *ev)
 {
-    if(ev->angleDelta().y() > 0) {
-        if(mCamera->m[11]-2.0f > FLOAT_PRECISE) {
-            mCamera->m[11] -= 1.0f;
-        }
-    } else {
-        if(mCamera->m[11] < 10.0f) {
-            mCamera->m[11] += 1.0f;
-        }
-    }
+    Q_UNUSED(ev)
+
+    // if(ev->angleDelta().y() > 0) {
+    //     if(mCamera->m[11]-2.0f > FLOAT_PRECISE) {
+    //         mCamera->m[11] -= 1.0f;
+    //     }
+    // } else {
+    //     if(mCamera->m[11] < 10.0f) {
+    //         mCamera->m[11] += 1.0f;
+    //     }
+    // }
 }
 
 std::string Window::loadFile(const std::string &file)

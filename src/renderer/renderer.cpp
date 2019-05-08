@@ -3,7 +3,7 @@
 #include "shaderprogrammanager.h"
 #include "buffermanager.h"
 #include "bufferobject.h"
-#include "scene/camera3d.h"
+#include "core/math/matrix4x4.h"
 
 #include <iostream>
 
@@ -65,6 +65,7 @@ bool Renderer::init()
     }
 
     // init gl extension
+    glEnable(GL_DEPTH);
 
     GLuint vertShader = shaderPrograms->createShader(ShaderType::VERTEX,spatialVertexShaderSrc.c_str());
     GLuint fragShader = shaderPrograms->createShader(ShaderType::FRAGMENT,spatialFragmentShaderSrc.c_str());
@@ -76,9 +77,9 @@ bool Renderer::init()
 
     GLfloat cube[]= {
         0.0f,0.0f,0.0f,
-        5.0f,0.0f,0.0f,
-        0.0f,5.0f,0.0f,
-        0.0f,0.0f,5.0f
+        1.0f,0.0f,0.0f,
+        0.0f,1.0f,0.0f,
+        0.0f,0.0f,1.0f,
     };
 
     GLuint indices[] = {
@@ -110,6 +111,8 @@ void Renderer::render()
     if(mCamera) {
         shaderPrograms->setMat4Value(shaderProgram,"mvp",mCamera->m);
     }
+
+    // glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     // glDrawArrays(GL_TRIANGLES,0,3);
     glDrawElements(GL_LINES,6,GL_UNSIGNED_INT,nullptr);
 }
@@ -119,7 +122,7 @@ void Renderer::resizeViewport(int w, int h)
     glViewport(0,0,w,h);
 }
 
-void Renderer::setCamera(Camera3D *camera)
+void Renderer::setCamera(Matrix4x4 *camera)
 {
     mCamera = camera;
 }

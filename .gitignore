@@ -8,5 +8,6 @@
 *.autosave
 __pycache__
 .vscode
-build
+build-*/
 dist
+
