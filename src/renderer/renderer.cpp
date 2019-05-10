@@ -25,10 +25,12 @@ static const std::string layered2DFragmentShaderSrc = {"#version 430 core\n"
                                         "}"};
 
 static const std::string spatialVertexShaderSrc = {"#version 430 core\n"
-                                                   "layout(location=0) in vec3 iPos;"
-                                                   "uniform mat4 mvp;"
+                                                   "layout(location=0) in vec3 iPos;\n"
+                                                   "uniform mat4 model;\n"
+                                                   "uniform mat4 view;\n"
+                                                   "uniform mat4 projection;\n"
                                                    "void main(){"
-                                                   "gl_Position = mvp * vec4(iPos,1.0f);"
+                                                   "gl_Position = projection * view * model * vec4(iPos,1.0f);"
                                                    "}"};
 static const std::string spatialFragmentShaderSrc = {"#version 430 core\n"
                                                      "out vec4 ioFragColor;"
@@ -108,8 +110,14 @@ void Renderer::render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glBindVertexArray(vao);
     glUseProgram(shaderProgram);
-    if(mCamera) {
-        shaderPrograms->setMat4Value(shaderProgram,"mvp",mCamera->m);
+    if(mModel) {
+        shaderPrograms->setMat4Value(shaderProgram,"model",mModel->m);
+    }
+    if(mView) {
+        shaderPrograms->setMat4Value(shaderProgram,"view",mView->m);
+    }
+    if(mProjection) {
+        shaderPrograms->setMat4Value(shaderProgram,"projection",mProjection->m);
     }
 
     // glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
@@ -122,9 +130,12 @@ void Renderer::resizeViewport(int w, int h)
     glViewport(0,0,w,h);
 }
 
-void Renderer::setCamera(Matrix4x4 *camera)
+void Renderer::setMVP(Matrix4x4 *model, Matrix4x4 *view, Matrix4x4 *projection)
 {
-    mCamera = camera;
+    mModel = model;
+    mView = view;
+    mProjection = projection;
 }
+
 
 LENGINE_NAMESPACE_END

@@ -21,14 +21,16 @@ public:
     void render();
     void resizeViewport(int w, int h);
 
-    void setCamera(Matrix4x4 *camera);
+    void setMVP(Matrix4x4 *model, Matrix4x4 *view, Matrix4x4 *projection);
 
 private:
     BufferObject *buffer{nullptr};
     BufferObject *eleBuffer{nullptr};
     BufferManager *buffers{nullptr};
     ShaderProgramManager *shaderPrograms{nullptr};
-    Matrix4x4 *mCamera{nullptr};
+    Matrix4x4 *mModel{nullptr};
+    Matrix4x4 *mView{nullptr};
+    Matrix4x4 *mProjection{nullptr};
 };
 
 LENGINE_NAMESPACE_END

@@ -4,10 +4,6 @@
 #include "openglwindow.h"
 #include <QMatrix4x4>
 
-namespace LEngine {
-struct Matrix4x4;
-}
-
 class Window: public OpenGLWindow
 {
     Q_OBJECT
@@ -33,7 +29,6 @@ private:
     QMatrix4x4 model;
     QMatrix4x4 view;
     QMatrix4x4 projection;
-    LEngine::Matrix4x4 *mCamera{nullptr};
     QPoint mLatestPos;
     bool mPressed{false};
 };

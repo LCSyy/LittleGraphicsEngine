@@ -22,7 +22,6 @@ Window::Window(QWindow *parent)
 
 Window::~Window()
 {
-    if(mCamera) delete mCamera;
 }
 
 void Window::initialize()
@@ -33,18 +32,23 @@ void Window::initialize()
     }
 
     Engine::renderer().init();
-    model.scale(1.0f);
-    view.scale(1.0f);
-    projection.scale(1.0f);
-    projection.perspective(75.0f,static_cast<float>(width())/height(),0.1f,100.0f);
-    mCamera = new Matrix4x4;
-    Engine::renderer().setCamera(mCamera);
+    model.translate(QVector3D(0.0f,0.0f,-10.0f));
+    view.lookAt(QVector3D(0.0f,0.0f,0.0f),QVector3D(0.0f,0.0f,-1.0f),QVector3D(0.0f,1.0f,0.0f));
+    projection.perspective(45.0f,static_cast<float>(width())/height(),0.1f,100.0f);
 }
 
 void Window::update()
 {
-    QMatrix4x4 mvp{model*view*projection};
-    std::memcpy(mCamera->m,mvp.data(),sizeof(float)*16);
+    static Matrix4x4 modelMat;
+    static Matrix4x4 viewMat;
+    static Matrix4x4 projectionMat;
+
+    model.rotate(3.0f,QVector3D(1.0f,1.0f,1.0f));
+
+    std::memcpy(modelMat.m,model.data(),sizeof(float)*16);
+    std::memcpy(viewMat.m,view.data(),sizeof(float)*16);
+    std::memcpy(projectionMat.m,projection.data(),sizeof(float)*16);
+    Engine::renderer().setMVP(&modelMat,&viewMat, &projectionMat);
     Engine::renderer().render();
 }
 
@@ -64,22 +68,22 @@ void Window::keyPressEvent(QKeyEvent *ev)
     float step = 0.1f;
     switch(ev->key()) {
     case Qt::Key_W:
-        model.translate(0.0f,-step,0.0f);
+        view.translate(0.0f,-step,0.0f);
         break;
     case Qt::Key_S:
-        model.translate(0.0f,step,0.0f);
+        view.translate(0.0f,step,0.0f);
         break;
     case Qt::Key_A:
-        model.translate(-step,0.0f,0.0f);
+        view.translate(step,0.0f,0.0f);
         break;
     case Qt::Key_D:
-        model.translate(step,0.0f,0.0f);
+        view.translate(-step,0.0f,0.0f);
         break;
     case Qt::Key_Up:
-        model.translate(0.0f,0.0f,step);
+        view.translate(0.0f,0.0f,step);
         break;
     case Qt::Key_Down:
-        model.translate(0.0f,0.0f,-step);
+        view.translate(0.0f,0.0f,-step);
         break;
     }
 }
