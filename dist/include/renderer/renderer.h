@@ -21,6 +21,7 @@ public:
     void render();
     void resizeViewport(int w, int h);
 
+    // pipelines
     void setMVP(Matrix4x4 *model, Matrix4x4 *view, Matrix4x4 *projection);
 
 private:

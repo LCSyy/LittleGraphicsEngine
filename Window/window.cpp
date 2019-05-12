@@ -9,6 +9,7 @@
 #include <QDebug>
 #include <QMatrix4x4>
 #include "engine.h"
+#include "scene/scene.h"
 #include "renderer/renderer.h"
 #include "core/math/matrix4x4.h"
 
@@ -35,6 +36,9 @@ void Window::initialize()
     model.translate(QVector3D(0.0f,0.0f,-10.0f));
     view.lookAt(QVector3D(0.0f,0.0f,0.0f),QVector3D(0.0f,0.0f,-1.0f),QVector3D(0.0f,1.0f,0.0f));
     projection.perspective(45.0f,static_cast<float>(width())/height(),0.1f,100.0f);
+
+    Scene scene;
+    scene.loadScene("./scene_data.glb");
 }
 
 void Window::update()

@@ -24,7 +24,9 @@ sdk_core_math.files += \
     core/math/vector4d.h
 
 sdk_scene.path = $$PWD/../dist/include/scene
-sdk_scene.files = scene/camera3d.h
+sdk_scene.files += \
+    scene/scene.h \
+    scene/camera3d.h
 
 INSTALLS += sdk_engine sdk_renderer sdk_core_math sdk_scene
 
@@ -37,6 +39,7 @@ HEADERS += \
     core/math/vector3d.h \
     core/math/vector4d.h \
     scene/camera3d.h \
+    scene/scene.h \
     shared_library.h \
     engine.h \
     renderer/renderer.h \
@@ -47,6 +50,7 @@ HEADERS += \
     renderer/texture.h
 
 SOURCES += \
+    scene/scene.cpp \
     thirdparty/glad/glad.c \
     engine.cpp \
     renderer/renderer.cpp \
