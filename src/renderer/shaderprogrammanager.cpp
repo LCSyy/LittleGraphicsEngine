@@ -139,6 +139,12 @@ bool ShaderProgramManager::linkProgram(GLuint program)
     return true;
 }
 
+void ShaderProgramManager::setFloatValue(GLuint program, const GLchar *name, float data)
+{
+    GLint loc = glGetUniformLocation(program,name);
+    glUniform1f(loc,data);
+}
+
 void ShaderProgramManager::setMat4Value(GLuint program, const GLchar *name, const GLfloat *data)
 {
     GLint loc = glGetUniformLocation(program,name);

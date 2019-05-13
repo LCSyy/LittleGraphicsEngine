@@ -24,6 +24,8 @@ public:
     // pipelines
     void setMVP(Matrix4x4 *model, Matrix4x4 *view, Matrix4x4 *projection);
 
+public:
+    float aspect{1.0f};
 private:
     BufferObject *buffer{nullptr};
     BufferObject *eleBuffer{nullptr};
@@ -32,6 +34,7 @@ private:
     Matrix4x4 *mModel{nullptr};
     Matrix4x4 *mView{nullptr};
     Matrix4x4 *mProjection{nullptr};
+
 };
 
 LENGINE_NAMESPACE_END

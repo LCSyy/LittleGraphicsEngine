@@ -26,11 +26,12 @@ static const std::string layered2DFragmentShaderSrc = {"#version 430 core\n"
 
 static const std::string spatialVertexShaderSrc = {"#version 430 core\n"
                                                    "layout(location=0) in vec3 iPos;\n"
+                                                   "uniform float aspect;\n"
                                                    "uniform mat4 model;\n"
                                                    "uniform mat4 view;\n"
                                                    "uniform mat4 projection;\n"
                                                    "void main(){"
-                                                   "gl_Position = projection * view * model * vec4(iPos,1.0f);"
+                                                   "gl_Position = projection * view * model * vec4(iPos.x,iPos.y*aspect,iPos.z,1.0f);"
                                                    "}"};
 static const std::string spatialFragmentShaderSrc = {"#version 430 core\n"
                                                      "out vec4 ioFragColor;"
@@ -119,6 +120,7 @@ void Renderer::render()
     if(mProjection) {
         shaderPrograms->setMat4Value(shaderProgram,"projection",mProjection->m);
     }
+    shaderPrograms->setFloatValue(shaderProgram,"aspect",aspect);
 
     // glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     // glDrawArrays(GL_TRIANGLES,0,3);

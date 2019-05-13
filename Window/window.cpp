@@ -37,8 +37,8 @@ void Window::initialize()
     view.lookAt(QVector3D(0.0f,0.0f,0.0f),QVector3D(0.0f,0.0f,-1.0f),QVector3D(0.0f,1.0f,0.0f));
     projection.perspective(45.0f,static_cast<float>(width())/height(),0.1f,100.0f);
 
-    Scene scene;
-    scene.loadScene("./scene_data.glb");
+    // Scene scene;
+    // scene.loadScene("./scene_data.glb");
 }
 
 void Window::update()

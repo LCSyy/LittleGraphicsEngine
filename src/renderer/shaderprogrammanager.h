@@ -33,6 +33,7 @@ public:
     void detachShaders(GLuint program, const std::vector<GLuint> &shaders);
     bool linkProgram(GLuint program);
 
+    void setFloatValue(GLuint program, const GLchar *name, float data);
     void setMat4Value(GLuint program, const GLchar *name, const GLfloat *data);
 };
 
