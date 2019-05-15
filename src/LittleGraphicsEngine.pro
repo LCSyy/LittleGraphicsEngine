@@ -31,6 +31,7 @@ sdk_scene.files += \
 INSTALLS += sdk_engine sdk_renderer sdk_core_math sdk_scene
 
 HEADERS += \
+    core/container/allocator.h \
     core/math/matrix4x4.h \
     core/math/point2d.h \
     core/math/point3d.h \
@@ -50,6 +51,7 @@ HEADERS += \
     renderer/texture.h
 
 SOURCES += \
+    core/container/allocator.cpp \
     scene/scene.cpp \
     thirdparty/glad/glad.c \
     engine.cpp \

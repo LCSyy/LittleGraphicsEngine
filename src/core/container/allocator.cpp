@@ -1,0 +1,5 @@
+﻿#include "allocator.h"
+
+LENGINE_NAMESPACE_BEGIN
+
+LENGINE_NAMESPACE_END
