@@ -9,10 +9,13 @@ INCLUDEPATH += $$PWD/thirdparty
 DESTDIR = $$PWD/../dist/bin
 
 sdk_engine.path = $$PWD/../dist/include/
-sdk_engine.files += engine.h  shared_library.h
+sdk_engine.files += \
+    engine.h \
+    shared_library.h
 
 sdk_renderer.path = $$PWD/../dist/include/renderer
-sdk_renderer.files += renderer/renderer.h
+sdk_renderer.files += \
+    renderer/renderer.h
 
 sdk_core_math.path = $$PWD/../dist/include/core/math
 sdk_core_math.files += \
@@ -21,7 +24,8 @@ sdk_core_math.files += \
     core/math/point3d.h \
     core/math/vector2d.h \
     core/math/vector3d.h \
-    core/math/vector4d.h
+    core/math/vector4d.h \
+    core/math/transform.h
 
 sdk_scene.path = $$PWD/../dist/include/scene
 sdk_scene.files += \
@@ -32,18 +36,10 @@ INSTALLS += sdk_engine sdk_renderer sdk_core_math sdk_scene
 
 HEADERS += \
     core/container/allocator.h \
-    core/math/matrix4x4.h \
-    core/math/point2d.h \
-    core/math/point3d.h \
-    core/math/quaternion.h \
-    core/math/vector2d.h \
-    core/math/vector3d.h \
-    core/math/vector4d.h \
-    scene/camera3d.h \
-    scene/scene.h \
-    shared_library.h \
-    engine.h \
-    renderer/renderer.h \
+    $${sdk_core_math.files} \
+    $${sdk_scene.files} \
+    $${sdk_engine.files} \
+    $${sdk_renderer.files} \
     renderer/shaderprogrammanager.h \
     renderer/buffermanager.h \
     renderer/bufferobject.h \
