@@ -2,18 +2,18 @@
 #define LITTLE_ENGINE_HPP
 
 #include <string>
-
-#define LITTLE_ENGINE_TITLE "Little Engine"
+#include "engine_global.hpp"
 
 class LittleEnginePrivate;
-class LittleEngine {
+class LITTLE_ENGINE_API LittleEngine {
 public:
     LittleEngine();
     ~LittleEngine();
 
     int exec();
     
-    std::string version() const;
+protected:
+
 protected:
     LittleEnginePrivate *p;
 };
