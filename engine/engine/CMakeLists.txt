@@ -6,7 +6,7 @@
 # )
 # FetchContent_MakeAvailable(glfw3)
 
-add_library(LittleEngine
+add_library(LittleEngine SHARED
     ${CMAKE_CURRENT_SOURCE_DIR}/glad/include/glad/glad.h
     ${CMAKE_CURRENT_SOURCE_DIR}/glad/src/glad.c
     little_engine.hpp
