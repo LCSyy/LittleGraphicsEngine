@@ -9,7 +9,11 @@ public:
     Renderer();
     ~Renderer();
     
-    void render();
+    void render_frame();
+
+protected:
+    void init();
+    void finish();
 
 protected:
     RendererPrivate *p;

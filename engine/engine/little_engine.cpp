@@ -26,7 +26,7 @@ public:
 LittleEngine::LittleEngine()
     : p(new LittleEnginePrivate)
 {
-
+    p->init();
 }
 
 LittleEngine::~LittleEngine() {
@@ -55,7 +55,7 @@ int LittleEngine::exec() {
     }
     
     while (!glfwWindowShouldClose(p->m_glfw_window)) {
-        p->m_renderer->render();
+        p->m_renderer->render_frame();
 
         glfwSwapBuffers(p->m_glfw_window);
         glfwPollEvents();
