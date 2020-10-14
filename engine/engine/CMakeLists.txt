@@ -10,9 +10,10 @@ add_library(LittleEngine SHARED
 
 target_include_directories(LittleEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/glad/include)
 
-target_include_directories(LittleEngine PRIVATE ${CMAKE_INSTALL_PREFIX}/include)
-find_library(GLFWLIB glfw3 ${CMAKE_INSTALL_PREFIX}/lib)
-target_link_libraries(LittleEngine ${GLFWLIB})
+target_include_directories(LittleEngine PRIVATE ${glfw3_SOURCE_DIR}/include)
+# find_library(glfw3_LIB glfw3 ${glfw3_BINARY_DIR}/src)
+# message("glfw3 at: ${glfw3_LIB}")
+target_link_libraries(LittleEngine PRIVATE ${glfw3_BINARY_DIR}/src/libglfw3.a)
 
 install(
     TARGETS LittleEngine

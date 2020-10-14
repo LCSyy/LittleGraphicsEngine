@@ -12,6 +12,7 @@ set(GLFW_BUILD_TESTS OFF)
 set(GLFW_BUILD_DOCS OFF)
 
 FetchContent_MakeAvailable(glfw3)
+FetchContent_GetProperties(glfw3 SOURCE_DIR glfw3_SOURCE_DIR BINARY_DIR glfw3_BINARY_DIR)
 
 project(LittleEngine VERSION 0.0.1)
 
